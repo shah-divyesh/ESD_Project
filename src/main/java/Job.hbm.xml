@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	  <class name="com.neu.csye.pojo.Job" table="job">
+            <id column="jobId" name="jobId" type="int">
+                <generator class="native"/>
+             </id>
+             <property column="title" name="title" type="string"/>  
+             <property column="location" name="location" type="string"/>
+             <property column="description" name="description" type="string"/> 
+             <property column="status" name="status" type="string"/> 
+              <many-to-one class="com.neu.csye.pojo.Employer"  name="employer" >
+              	<column name="employer_Id" not-null="true"/>
+              </many-to-one> 
+    </class>
+</hibernate-mapping>

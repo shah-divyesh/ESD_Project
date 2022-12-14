@@ -1,7 +1,12 @@
 package com.neu.csye.dao;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Component;
 
 import com.neu.csye.pojo.Employee;
@@ -76,6 +81,34 @@ public class EmployeeDAO extends DAO{
             rollback();
             return false;
         }
+    }
+    
+    public boolean withDraw(Employee employee,Job job) {
+    	begin();
+    	
+    	SQLQuery q=getSession().createSQLQuery(" Delete from employee_jobs where Employee_ID=:employee_id and Job_ID=:job_id ");
+    	q.setParameter("employee_id", employee.getEmployeeId());
+    	q.setParameter("job_id", job.getJobId());
+    	int n=q.executeUpdate();
+    	
+    	if(n==1) {
+    		Set<Job> temp=new HashSet<>();
+    		Iterator<Job> ite=employee.getJobList().iterator();
+    		while(ite.hasNext()) {
+    			Job tempJob=ite.next();
+    			if(tempJob.getJobId()!=job.getJobId())
+    				temp.add(tempJob);
+    		}
+    		employee.setJobList(temp);
+    	}
+    	
+    	commit();
+    	if(n==1)
+    		
+    		return true;
+    	else
+    		return false;
+    		
     }
     
     

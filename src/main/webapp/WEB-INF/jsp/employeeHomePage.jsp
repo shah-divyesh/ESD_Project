@@ -45,7 +45,7 @@
 
 	<p align="center" ><h1>You applied to following jobs :</h1>
 	<table border="1">
-	<c:forEach items="${requestScope.appliedJobs}" var="list1">
+	<c:forEach items="${appliedJobs}" var="list1">
 		     <tr>
 		         <td>${list1.jobId}</td>
 		         <td>${list1.title}</td>

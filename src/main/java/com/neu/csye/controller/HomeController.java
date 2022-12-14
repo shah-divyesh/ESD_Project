@@ -1,8 +1,8 @@
 package com.neu.csye.controller;
 
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.Set;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.neu.csye.dao.EmployeeDAO;
-import com.neu.csye.dao.EmployerDAO;
 import com.neu.csye.dao.JobDAO;
 import com.neu.csye.pojo.Employee;
 import com.neu.csye.pojo.Employer;
@@ -45,7 +44,6 @@ public class HomeController {
 		if(result.hasErrors()) {
 			return "newjob-form";
 		}
-		EmployerDAO employerDAO=new EmployerDAO();
 		Employer employer=(Employer)session.getAttribute("employer");
 		System.out.println(employer.getFirstName());
 		job.setEmployer(employer);
@@ -81,8 +79,6 @@ public class HomeController {
 		System.out.println(job.getJobId()+" "+job.getDescription()+" "+job.getLocation()+" "+job.getStatus()+" "+job.getTitle());
 		JobDAO jobDAO=new JobDAO();
 		jobDAO.update(job);
-		
-//		System.out.println("Update job");
 		return "employerHomePage";
 	}
 	
@@ -104,13 +100,12 @@ public class HomeController {
 		JobDAO jobDAO=new JobDAO();
 		Job job=jobDAO.getJobById(jobId);
 		Employee employee=(Employee)session.getAttribute("employee");
-		System.out.println("Employee in applyJobPage method is :"+employee.getFirstName());
 		session.setAttribute("applyJobId", jobId);
+
 		job.getEmployeeList().add(employee);
 		employee.getJobList().add(job);
 		EmployeeDAO employeeDAO=new EmployeeDAO();
 		employeeDAO.update(employee);
-//		model.addAttribute("ApplyJob", job);
 		request.setAttribute("jobName", job.getTitle());
 		return "applicationSuccessPage";
 	}
@@ -118,14 +113,13 @@ public class HomeController {
 	@PostMapping("/employeeHome.htm")
 	public String goToEmployeeHome(HttpServletRequest request) {
 		HttpSession session=request.getSession();
+		request.removeAttribute("appliedJobs");
 		request.setAttribute("appliedJobs", new JobDAO().getAppliedJobs((Employee)session.getAttribute("employee")));
 		return "employeeHomePage";
 	}
 	
 	@PostMapping("/employerHome.htm")
 	public String goToEmployerHome(HttpServletRequest request,Model model) {
-//		HttpSession session=request.getSession();
-//		request.setAttribute("appliedJob", new JobDAO().getAppliedJobs((Employee)session.getAttribute("employee")));
 		return "employerHomePage";
 	}
 	
@@ -139,25 +133,18 @@ public class HomeController {
 		
 		
 		Employee employee=(Employee)request.getSession().getAttribute("employee");
-		System.out.println("------------------BEFORE UPDATING--------------");
-		Set<Job>temp1=employee.getJobList();
-		Iterator<Job> ite1=temp1.iterator();
-		while(ite1.hasNext()) {
-			System.out.println(ite1.next().getJobId());
-		}
-		
-		
-//		System.out.println("JobID="+job.getJobId()+"  EmployeeID="+employee.getEmployeeId());
-//		
+//		System.out.println("------------------BEFORE UPDATING--------------");
+//		Set<Job>temp1=employee.getJobList();
+//		Iterator<Job> ite1=temp1.iterator();
+//		while(ite1.hasNext()) {
+//			System.out.println(ite1.next().getJobId());
+//		}
+			
 //		boolean removeJOb=employee.getJobList().remove(job);
-//		boolean removeEmployee=job.getEmployeeList().remove(employee);
-//		int len=employee.getJobList().size();
-//		
-//		System.out.println("Job="+removeJOb+"  Employee="+removeEmployee);
-		
-		employee.removeJob(job);
-		new EmployeeDAO().update(employee);
-//		new JobDAO().update(job);
+//		boolean removeEmployee=job.getEmployeeList().remove(employee);		
+//		employee.removeJob(job);
+//		new EmployeeDAO().update(employee);
+		new EmployeeDAO().withDraw(employee, job);
 		return "withdrawSuccessPage";
 	}
 }

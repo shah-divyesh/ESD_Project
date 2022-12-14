@@ -39,7 +39,6 @@
 	   </c:forEach>
 	</table>
 
-	<a href="http://localhost:8080/jobBoard/WEB-INF/jsp/employerHomePage.jsp">Home Page</a>
 	<!--   -->
 </body>
 </html>

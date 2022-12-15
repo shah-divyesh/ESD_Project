@@ -28,6 +28,8 @@ public class Job {
 	
 //	(cascade=CascadeType.ALL) ,referencedColumnName="employerId"
 	
+	
+
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="employer_Id")
 	private Employer employer;

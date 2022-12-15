@@ -3,6 +3,7 @@ package com.neu.csye.pojo;
 import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Employer {
 	private String company;
 	private String password;
 	
-	@OneToMany(mappedBy="employer")
+	@OneToMany(mappedBy="employer",fetch = FetchType.EAGER)
 	private Set<Job> jobList;
 	
 	public Employer() {

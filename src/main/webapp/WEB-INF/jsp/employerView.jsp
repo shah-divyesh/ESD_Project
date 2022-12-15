@@ -35,6 +35,12 @@
 		         		<input type="submit" value="Edit" /> 
 		         	</form>
 		         </td>
+		         <td>
+		         	<form action="deleteJob.htm" method="post">
+		         		<input type="hidden"  name="Id" value="${list.jobId}">
+		         		<input type="submit" value="Delete" /> 
+		         	</form>
+		         </td>
 		     </tr>
 	   </c:forEach>
 	</table>

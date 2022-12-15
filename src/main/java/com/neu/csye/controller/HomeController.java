@@ -2,11 +2,14 @@ package com.neu.csye.controller;
 
 
 import java.util.List;
+import java.util.Set;
 
-
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.neu.csye.dao.DAO;
 import com.neu.csye.dao.EmployeeDAO;
+import com.neu.csye.dao.EmployerDAO;
 import com.neu.csye.dao.JobDAO;
 import com.neu.csye.pojo.Employee;
 import com.neu.csye.pojo.Employer;
@@ -94,6 +99,41 @@ public class HomeController {
 		return "updateJobPage";
 	}
 	
+	
+	@PostMapping("deleteJob.htm")
+	public String deleteJob(HttpServletRequest request) throws Exception {
+		int jobId=Integer.parseInt(request.getParameter("Id"));
+		SQLQuery q=DAO.getSession().createSQLQuery(" Select Job_ID from employee_jobs where Job_ID=:id");
+		q.setParameter("id", jobId);
+		Job job=new JobDAO().getJobById(jobId);
+		int count=q.getResultList().size();
+		if(count > 0) {
+			request.setAttribute("status", 0);
+			
+		}else {
+			request.setAttribute("status", 1);
+			EmployerDAO employerDAO=new EmployerDAO();
+			employerDAO.deleteJob(jobId);
+//			Employer employer=(Employer)request.getSession().getAttribute("employer");
+//			Set<Job> jobs=employer.getJobList();
+//			jobs.remove(job);
+//			employer.setJobList(jobs);
+//			new EmployerDAO().update(employer);
+//			new EmployeeDAO().save(null);
+		}
+		request.setAttribute("deleteJob", job.getTitle());
+		return "deleteJobPage";
+		
+	}
+	
+	@PostMapping("/employerHome.htm")
+	public String goToEmployerHome(HttpServletRequest request,Model model) {
+		return "employerHomePage";
+	}
+	
+	
+	// Employee Methods
+	
 	@PostMapping("/applyJob.htm")
 	public String applyJobPage(Model model,HttpServletRequest request,HttpSession session) throws Exception {
 		int jobId=Integer.parseInt(request.getParameter("Id"));
@@ -114,14 +154,14 @@ public class HomeController {
 	public String goToEmployeeHome(HttpServletRequest request) {
 		HttpSession session=request.getSession();
 		request.removeAttribute("appliedJobs");
+		request.removeAttribute("list");
+		
+		request.setAttribute("list", new JobDAO().getAllJobs(request));
 		request.setAttribute("appliedJobs", new JobDAO().getAppliedJobs((Employee)session.getAttribute("employee")));
 		return "employeeHomePage";
 	}
 	
-	@PostMapping("/employerHome.htm")
-	public String goToEmployerHome(HttpServletRequest request,Model model) {
-		return "employerHomePage";
-	}
+	
 	
 	@PostMapping("/withdraw.htm")
 	public String withdrawApplication(HttpServletRequest request) throws Exception {

@@ -56,11 +56,11 @@ public class SignInController {
 			}else {
 				
 				Employee employee=employeeDAO.getEmployee(user);
-				List<Job> sessionJobList=new JobDAO().getAllJobs();
-//				Set<Job> appliedJobs=employee.getJobList();
-				request.setAttribute("appliedJobs", new JobDAO().getAppliedJobs(employee));
-				session.setAttribute("list", sessionJobList);
 				session.setAttribute("employee",employee );
+				List<Job> sessionJobList=new JobDAO().getAllJobs(request);
+				request.setAttribute("appliedJobs", new JobDAO().getAppliedJobs(employee));
+				request.setAttribute("list", sessionJobList);
+				
 				System.out.println("Employee in SignInController method is :"+employee.getFirstName());
 				return "employeeHomePage";
 			

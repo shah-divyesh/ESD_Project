@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,9 @@ public class Employer {
 	private String emailId;
 	private String company;
 	private String password;
+	
+	@Transient
+	private String confirm_pwd;
 	
 	@OneToMany(mappedBy="employer",fetch = FetchType.EAGER)
 	private Set<Job> jobList;
@@ -77,6 +81,14 @@ public class Employer {
 
 	public void setJobList(Set<Job> jobList) {
 		this.jobList = jobList;
+	}
+	
+	public String getConfirm_pwd() {
+		return confirm_pwd;
+	}
+
+	public void setConfirm_pwd(String confirm_pwd) {
+		this.confirm_pwd = confirm_pwd;
 	}
 	
 	

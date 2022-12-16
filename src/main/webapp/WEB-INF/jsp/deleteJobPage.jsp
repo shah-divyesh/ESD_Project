@@ -6,9 +6,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Delete Page</title>
 </head>
-<body>
+<body  background="Image2.jpg" style="background-size: cover">
 	<div align="right" >
 		<form:form  action="employerHome.htm" method="post"  >
 		<input  style="font-style:inherit ;font-size: larger;color: white;border:thick;background-color:darkslateblue; " type="submit" value="Go to Home Page"/>

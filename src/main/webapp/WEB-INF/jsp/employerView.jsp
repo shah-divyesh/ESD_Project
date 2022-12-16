@@ -6,14 +6,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Jobs View Page</title>
 </head>
-<body>
+<body background="Image5.jpg" style="background-size: cover">
 	 <div align="right" >
 		<form:form  action="employerHome.htm" method="post"  >
-		<input  style="font-style:inherit ;font-size: larger;color: white;border:thick;background-color:darkslateblue; " type="submit" value="Go to Home Page"/>
+		<input  style="font-style:inherit ;font-size:x-large; ;color: white;border:thick;background-color:black;" type="submit" value="Go to Home Page"/>
 		</form:form>
 	</div>
+	
+	<div align="center">
 	<table border="1">
 	<tr>
          <td>Job ID</td>
@@ -44,6 +46,7 @@
 		     </tr>
 	   </c:forEach>
 	</table>
+	</div>
 
 	<!--   -->
 </body>

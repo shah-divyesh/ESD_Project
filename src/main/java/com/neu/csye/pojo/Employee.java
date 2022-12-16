@@ -1,15 +1,15 @@
 package com.neu.csye.pojo;
 
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -27,14 +27,11 @@ public class Employee {
 	private String contactNumber;
 	private String password;
 	
+	@Transient
+	private String confirm_pwd;
 	
-//	cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,},
+
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy="employeeList")
-//	@JoinTable(
-//			name="employee_jobs",
-//			joinColumns= @JoinColumn(name="Employee_ID",referencedColumnName = "employeeId"),
-//			inverseJoinColumns=@JoinColumn(name="Job_ID",referencedColumnName="jobId")
-//	)
 	private Set<Job> jobList=new HashSet<>();
 	
 	public Employee() {
@@ -88,15 +85,25 @@ public class Employee {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getConfirm_pwd() {
+		return confirm_pwd;
+	}
+
+	public void setConfirm_pwd(String confirm_pwd) {
+		this.confirm_pwd = confirm_pwd;
+	}
 	
-	public void removeJob(Job job) {
-		System.out.println("Before removing  JobList="+this.jobList.size()+" EmployeeList= "+job.getEmployeeList().size());
-		System.out.println(this.jobList.contains(job));
-		System.out.println(job.getEmployeeList().contains(this));
-        this.jobList.remove(job);
-        job.getEmployeeList().remove(this);
-        
-        System.out.println("After removing  JobList="+this.jobList.size()+" EmployeeList= "+job.getEmployeeList().size());
-    }
+	
+	
+//	public void removeJob(Job job) {
+//		System.out.println("Before removing  JobList="+this.jobList.size()+" EmployeeList= "+job.getEmployeeList().size());
+//		System.out.println(this.jobList.contains(job));
+//		System.out.println(job.getEmployeeList().contains(this));
+//        this.jobList.remove(job);
+//        job.getEmployeeList().remove(this);
+//        
+//        System.out.println("After removing  JobList="+this.jobList.size()+" EmployeeList= "+job.getEmployeeList().size());
+//    }
 	
 }

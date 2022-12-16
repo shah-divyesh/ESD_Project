@@ -1,49 +1,47 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Login and Registration form example</title>
-<link rel="stylesheet" type="text/css" href="formatting.css">
+<title>New Job Page</title>
 </head>
 
-<body>
+<body  background="Image4.jpg" style="background-size: cover">
 	
 	<div align="right" >
 		<form:form  action="employerHome.htm" method="post"  >
-		<input  style="font-style:inherit ;font-size: larger;color: white;border:thick;background-color:darkslateblue; " type="submit" value="Go to Home Page"/>
+		<input  style="font-style:inherit ;font-size:x-large; ;color: white;border:thick;background-color:black;" type="submit" value="Go to Home Page"/>
 		</form:form>
 	</div>
 	
-	<div class="main">
-	<h1>Creating New Job</h1>
-		<!--  --><div class="form1">
+	
+	<div align="center">
+		<h1>Creating New Job</h1>
 		<form:form modelAttribute="jobs" method="post"> 
 			<table>
 				<tr>
-					<td> Job Title :</td>
-					<td><form:input path="title" size="30" /><font color="red"> <form:errors path="title" /></font> </td>
+					<td align="justify" style="font-size: 30px; color: black"> Job Title :<br><br></td>
+					<td><form:input path="title" size="30" /><font color="red"> <form:errors path="title" /></font> <br><br></td>
 				</tr>
 				<tr>
-					<td> Job Location :</td>
-					<td><form:input path="location" size="30" /> <font color="red"> <form:errors path="location" /></font>  </td>
+					<td align="justify" style="font-size: 30px; color: black">Job Location :<br><br></td>
+					<td><form:input path="location" size="30" /> <font color="red"> <form:errors path="location" /></font> <br><br> </td>
 				</tr>
 				<tr>
-					<td> Job Description :</td>
-					<td><form:input path="description" size="30" /> <font color="red"> <form:errors path="description" /></font>  </td>
+					<td align="justify" style="font-size: 30px; color: black"> Job Description :<br><br></td>
+					<td><form:input path="description" size="30" /> <font color="red"> <form:errors path="description" /></font> <br><br> </td>
 				</tr>
 				<tr>
-					<td> Hiring Status :</td>
-					<td><form:input path="status" size="30" /> <font color="red"> <form:errors path="status" /></font>  </td>
+					<td align="justify" style="font-size: 30px; color: black">Hiring Status :<br><br></td>
+					<td><form:input path="status" size="30" /> <font color="red"> <form:errors path="status" /></font> <br><br> </td>
 				</tr>
 				
 				<tr>
-					<td colspan=2><input type="submit" value="Create Job" /></td>
+					<td align="center" colspan=2><input type="submit" value="Create Job" style="font-size: 30px;" /></td>
 				</tr>
 			</table>
 		 </form:form>
-		 </div>
-	 </div>
+	</div>
 </body>
 </html>

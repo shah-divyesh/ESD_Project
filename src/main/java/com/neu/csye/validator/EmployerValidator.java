@@ -24,6 +24,9 @@ public class EmployerValidator implements Validator{
 		ValidationUtils.rejectIfEmpty(errors, "emailId", "Email Id cannot be empty", "Enter Email Id");
 		ValidationUtils.rejectIfEmpty(errors, "company", "Company Name cannot be empty", "Enter Company Name");
 		ValidationUtils.rejectIfEmpty(errors, "password", "Password cannot be empty", "Enter Password");
+		ValidationUtils.rejectIfEmpty(errors, "confirm_pwd", "Confirm Password cannot be empty", "Enter Confirm Password");
+		
+		
 	}
 
 }

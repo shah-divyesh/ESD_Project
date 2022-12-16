@@ -5,25 +5,25 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Home Page</title>
 </head>
-<body>
+<body  background="Image5.jpg" style="background-size: cover">
 	
 	<div align="right" >
-	<form:form  action="logout.htm" method="get" >
-		<input  style="font-style:inherit ;font-size: larger;color: white;border:thick;background-color:darkslateblue; " type="submit" value="Logout"/>
+	<form:form  action="logout.htm" method="get" modelAttribute="jobs" >
+		<input  style="font-style:inherit ;font-size: 30px;color: white;border:thick;background-color:black; " type="submit" value="Logout"/>
 	</form:form>
 	</div>
 	<br><br>
 	<div align="center" style="font-style: oblique;font-size: larger;color: navy;border:thick; ">
 	<form:form  action="createnewjob.htm" method="get" modelAttribute="jobs" >
-		<input type="submit" value="Create New Job"/>
+		<input style="font-size: 30px; color: black;" type="submit" value="Create New Job"/>
 	</form:form>
 	</div>
-	
+	<br><br>
 	<div align="center" style="font-style: oblique;font-size: larger;color: navy;border:thick; ">
 	<form:form  action="jobList.htm" method="post" modelAttribute="jobs" >
-		<input type="submit" value="View All created Jobs"/>
+		<input style="font-size: 30px; color: black;" type="submit" value="View All created Jobs"/>
 	</form:form>
 	</div>
 </body>

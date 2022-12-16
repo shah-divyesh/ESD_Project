@@ -1,6 +1,7 @@
 package com.neu.csye.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,8 +9,10 @@ import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -186,5 +189,30 @@ public class HomeController {
 //		new EmployeeDAO().update(employee);
 		new EmployeeDAO().withDraw(employee, job);
 		return "withdrawSuccessPage";
+	}
+	
+	@PostMapping("/search.htm")
+	public String searchJobs(HttpServletRequest request) {
+		String companyName=request.getParameter("companyName");
+		
+		Query q=DAO.getSession().createQuery("From Employer where company=:companyName");
+		q.setParameter("companyName", companyName);
+		List<Employer> list=q.getResultList();
+		List<Job> jobList=new ArrayList<>();
+		
+		for(int i=0;i<list.size();i++) {
+			Criteria crit=DAO.getSession().createCriteria(Job.class);
+			crit.add(Restrictions.eq("employer",list.get(i)));
+			crit.add(Restrictions.eq("status","Hiring"));
+			jobList.addAll(crit.list());
+		}
+		if(jobList.size()==0) {
+			request.setAttribute("countFlag",0);
+		}else {
+			request.setAttribute("countFlag",1);
+			request.setAttribute("jobList", jobList);
+		}
+		request.setAttribute("companyName", companyName);
+		return "searchResultPage";
 	}
 }

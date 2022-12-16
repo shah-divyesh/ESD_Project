@@ -1,13 +1,18 @@
 package com.neu.csye.controller;
 
+import java.util.List;
+
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,10 +50,32 @@ public class SignUpController {
 			return "employeeSignUp-form";
 		}
 		status.setComplete();
+		
+		// New added Code
+		if(!employee.getConfirm_pwd().equals(employee.getPassword())) {
+			ObjectError error=new ObjectError("employee","Password and Confirm Password doesn't match");
+			result.addError(error);
+			return "employeeSignUp-form";
+		}
+		
+		if(!(employee.getContactNumber().length()==10)) {
+			ObjectError error=new ObjectError("employee","Only 10 digits are allowed in Contact Number");
+			result.addError(error);
+			return "employeeSignUp-form";
+		}
+		
 		EmployeeDAO employeeDAO=new EmployeeDAO();
+		
+		// New Code
+		Query q=employeeDAO.getSession().createQuery("Select emailId From Employee");
+		List<String> emailIdList=q.getResultList();
+		if(emailIdList.contains(employee.getEmailId())) {
+			ObjectError error=new ObjectError("employee","Employee with same Email id exist in the system ");
+			result.addError(error);
+			return "employeeSignUp-form";
+		}
+		
 		employeeDAO.save(employee);
-//		model.addAttribute("user",new User());
-//		return "signIn-form";
 		request.setAttribute("name", employee.getFirstName());
 		return "signUpSuccessPage";
 	}
@@ -59,6 +86,7 @@ public class SignUpController {
 		return "employerSignUp-form";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@PostMapping("/employersignup.htm")
 	public String showSuccess(@ModelAttribute("employer")Employer employer,BindingResult result ,SessionStatus status,Model model,HttpServletRequest request ) throws Exception{
 		employerValidator.validate(employer, result);
@@ -67,10 +95,27 @@ public class SignUpController {
 			return "employerSignUp-form";
 		}
 		status.setComplete();
+		
+		// New added Code
+		if(!employer.getConfirm_pwd().equals(employer.getPassword())) {
+			ObjectError error=new ObjectError("employer","Password and Confirm Password doesn't match");
+			result.addError(error);
+			return "employerSignUp-form";
+		}
+		
+		
 		EmployerDAO employerDAO=new EmployerDAO();
+		
+		// New Added code
+		Query q=employerDAO.getSession().createQuery("Select emailId From Employer");
+		List<String> emailIdList=q.getResultList();
+		if(emailIdList.contains(employer.getEmailId())) {
+			ObjectError error=new ObjectError("employer","Employer with same Email id exist in the system ");
+			result.addError(error);
+			return "employerSignUp-form";
+		}
+		
 		employerDAO.save(employer);
-//		model.addAttribute("user", new User());
-//		return "signIn-form";
 		request.setAttribute("name", employer.getFirstName());
 		return "signUpSuccessPage";
 	}
